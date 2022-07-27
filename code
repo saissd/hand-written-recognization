@@ -1,1 +1,49 @@
+% Load an image.
+%image filepath
+%image in jpg format
+[file,path]=uigetfile('*.jpg');
+
+%reading an image
+%imread used to read an image
+i = imread([path,file]);
+%3rows,3columns,At position 1
+subplot(3,3,1)
+imshow(i)
+title('original image')
+
+
+
+% Perform rgb2gray()
+%converts the truecolor image RGB to the grayscale image I
+l = imadjust(rgb2gray(i))
+%3rows,3columns
+% At position 3
+subplot(3,3,2)
+imshow(l)
+title('enhanced image')
+
+% Perform rgb2gray()
+%converts the truecolor image RGB to the grayscale image I
+j = imadjust(l)
+%3rows,3columns,at position 2
+subplot(3,3,5),title(' second time')
+imshow(j)
+%creates a binary image from image I using the threshold value T 
+%a flat morphological structuring element
+a = imbinarize(j)
+a=~a;
+imshow(a)
+subplot(3,3,6)
+g=strel('cube',4);
+a=imclose(a,g);
+
+
+% Perform OCR.
+%result is the output.
+results = ocr(a);
+
+
+% Display one of the recognized words.
+%displaying output/recognised words.
+word = results.Words
 
